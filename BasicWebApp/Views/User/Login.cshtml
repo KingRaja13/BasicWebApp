@@ -1,0 +1,87 @@
+﻿@model BasicWebApp.Data.LoginDetail
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My ASP.NET Application</title>
+    @Styles.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="col-md-8">
+            <section id="loginForm">
+                @using (Html.BeginForm("Authorize", "User",
+                FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                <table>
+                    @Html.AntiForgeryToken()
+                    <h4>Please Login</h4>
+                    <hr />
+
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <div class="radio-inline">
+                                @Html.RadioButtonFor(m => m.Userrole, "Admin")
+                                @Html.Label("Admin")
+                            </div>
+                            <div class="radio-inline">
+                                @Html.RadioButtonFor(m => m.Userrole, "General")
+                                @Html.Label("General")
+                                <br />
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10 col-md-offset-2">
+                            @Html.ValidationMessageFor(m => m.Userrole, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-10 col-md-offset-2">
+                            <span class="text-danger"> @ViewBag.Error</span>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Log in" class="btn btn-default" />
+                        </div>
+                    </div>
+                </table>
+                }
+            </section>
+        </div>
+    </div>
+</body>
+</html>
+
+
+@*new { ReturnUrl = ViewBag.ReturnUrl }*@

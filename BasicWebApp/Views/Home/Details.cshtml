@@ -1,0 +1,33 @@
+﻿@model IEnumerable<BasicWebApp.Data.Employee>
+
+@{
+    ViewBag.Title = "Details";
+
+    WebGrid grid = new WebGrid(null);
+    grid.Bind(Model, autoSortAndPage: false, rowCount: 2);
+
+}
+
+<h2>Bind GridView in MVC5 with Database</h2>
+@{
+    var gridColumns = new List<WebGridColumn>();
+    gridColumns.Add(grid.Column("EmployeeID", " Employee ID"));
+    gridColumns.Add(grid.Column("FullName", " FullName"));
+    gridColumns.Add(grid.Column("DOB", " DOB", format: (item) => string.Format("{0:dd/MM/yyyy}", item.DOB)));
+    gridColumns.Add(grid.Column("Department", " Department"));
+    if (User.IsInRole("Admin"))
+    {
+        gridColumns.Add(grid.Column(header: "Action",
+format: @<a data-value="@item.EmployeeID" href="@Url.Action("EditDetails", "Home", new {id = @item.EmployeeID})">Edit</a>));
+
+    }
+}
+
+@grid.GetHtml(tableStyle: "table table-bordered",
+ mode: WebGridPagerModes.All,
+ firstText: "<< First",
+ previousText: "< Prev",
+ nextText: "Next >",
+ lastText: "Last >>",
+ columns: grid.Columns(gridColumns.ToArray()))
+
